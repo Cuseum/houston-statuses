@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  url: MyString
+  checker: MyString
+  status: 1
+  last_checked_at: 2020-02-28 09:16:16
+
+two:
+  name: MyString
+  url: MyString
+  checker: MyString
+  status: 1
+  last_checked_at: 2020-02-28 09:16:16

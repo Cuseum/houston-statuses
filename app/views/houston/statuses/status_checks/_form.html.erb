@@ -1,0 +1,50 @@
+<%= form_for @status_check, :html => { :class => "form-horizontal" } do |f| %>
+  <fieldset>
+    <div class="control-group">
+      <%= f.label :name, :class => "control-label" %>
+      <div class="controls">
+        <%= f.text_field :name, :class => "text_field" %>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <%= f.label :url, :class => "control-label" %>
+      <div class="controls">
+        <%= f.text_field :url, :class => "text_field" %>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <%= f.label :checker, :class => "control-label" %>
+      <div class="controls">
+        <%= f.text_field :checker, :class => "text_field" %>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <%= f.submit nil, :class => "btn btn-primary" %>
+      <%= link_to "Cancel", status_checks_path, :class => "btn" %>
+
+      <% if @status_check.persisted? && can?(:destroy, @status_check) %>
+        <a class="btn btn-delete btn-danger" id="delete_status_check_button">Delete</a>
+      <% end %>
+    </div>
+  </fieldset>
+<% end %>
+
+<% content_for :javascripts do %>
+<script type="text/javascript">
+  $(function() {
+    <% if @status_check.persisted? && can?(:destroy, @status_check) %>
+    $('#delete_status_check_button').click(function(e) {
+      e.preventDefault();
+      App.confirmDelete({
+        resource: 'StatusCheck',
+        message: 'This will delete "<%= @status_check.name %>".',
+        url: <%=raw status_check_path(@status_check).to_json %>
+      });
+    });
+    <% end %>
+  });
+</script>
+<% end %>

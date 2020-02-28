@@ -1,0 +1,54 @@
+<% content_for :title do %>
+  <h1 class="project-banner space-below">
+    Status checks
+
+    <%= link_to "New Status check", new_status_check_path, :class => "btn btn-primary" if can?(:create, Houston::Statuses::StatusCheck) %>
+  </h1>
+<% end %>
+
+<% if @status_checks.any? %>
+  <div class="progress">
+    <div class="bar" style="width: <%= @init_percent %>%">init</div>
+    <div class="bar bar-success" style="width: <%= @operational_percent %>%">operational</div>
+    <div class="bar bar-warning" style="width: <%= @warn_percent %>%">warn</div>
+    <div class="bar bar-important" style="width: <%= @outage_percent %>%">warn</div>
+  </div>
+
+  <br>
+
+  <div class="nomargin">
+    <table id="status_checks" class="table table-striped">
+      <thead>
+        <tr>
+          <td class="table-margin"></td>
+          <th class="status-check-name sort-desc">Name</th>
+          <th class="status-check-status">Status</th>
+          <th class="status-check-last-checked-at">Last checked at</th>
+          <td class="table-margin"></td>
+        </tr>
+      </thead>
+      <tbody>
+        <% @status_checks.each do |status_check| %>
+          <tr id="status_check_<%= status_check.id %>">
+            <td class="table-margin"></td>
+
+            <td class="status-check-name">
+              <%= link_to_if can?(:update, status_check), status_check.name, edit_status_check_path(status_check) %>
+            </td>
+
+            <td>
+              <span class="label <%= status_check_status_label_class(status_check.status) %>">
+                <%= status_check.status %>
+              </span>
+            </td>
+
+            <td>
+              <%= time_ago_in_words(status_check.last_checked_at) if status_check.last_checked_at %>
+            </td>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <div class="alert alert-info">There are no status checks yet. Click <b>New Status</b> to create one.</div>
+<% end %>
