@@ -13,12 +13,12 @@ module Houston
 
         def indicator_to_status(indicator)
           case indicator
-          when 'operational', 'none'
-            :operational
-          when 'maintenance', 'degraded_performance'
+          when 'critical'
+            :outage
+          when 'minor', 'major'
             :warn
           else
-            :outage
+            :operational
           end
         end
       end
